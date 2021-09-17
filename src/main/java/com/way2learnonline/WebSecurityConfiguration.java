@@ -31,6 +31,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
 		  		.anyRequest().authenticated()
 		  		.and().formLogin().and().httpBasic();
 	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder(){
+		return NoOpPasswordEncoder.getInstance();
+
+	}
+
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+		auth.inMemoryAuthentication()
+				.withUser("vinod")
+				.password(passwordEncoder().encode("kumar")).roles("ADMIN")
+		.and()
+		.withUser("bharath")
+		.password(passwordEncoder().encode("kumar")).roles("ADMIN");
+	}
+
 	//TODO-11 uncomment the below to configure jdbc authentication using DelegatingPasswordEncoder
 
 /*	@Bean
